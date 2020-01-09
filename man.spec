@@ -4,7 +4,7 @@
 Summary: A set of documentation tools: man, apropos and whatis
 Name: man
 Version: 1.6f
-Release: 30%{?dist}
+Release: 32%{?dist}
 License: GPLv2
 Group: System Environment/Base
 URL: http://primates.ximian.com/~flucifredi/man/
@@ -50,6 +50,8 @@ Patch42: man-1.6f-makewhatis_vari.patch
 Patch43: man-1.6f-debuginfo.patch
 Patch44: man-1.6f-jap.patch
 Patch45: man-1.6f-symlinks.patch
+# resolves: #713088
+Patch46: man-1.6f-valgrind.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: coreutils
@@ -102,6 +104,7 @@ primary way to find documentation on a Linux system.
 %patch43 -p1 -b .db
 %patch44 -p1 -b .jap
 %patch45 -p1 -b .symlinks
+%patch46 -p1 -b .valgrind
 
 cp -f %{SOURCE3} msgs   # replace bad ru trans
 cp -f %{SOURCE5} ./
@@ -286,6 +289,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 16 2012 Peter Schiffer <pschiffe@redhat.com> - 1.6f-32
+- related: #713088
+  fixed coverity findings
+
+* Mon Oct  1 2012 Peter Schiffer <pschiffe@redhat.com> - 1.6f-31
+- resolves: #815209
+  fixed override_dir patch - do not override localized man pages
+  with English man pages
+- resolves: #713088
+  fixed memory leaks
+
 * Fri Jan 20 2012 Peter Schiffer <pschiffe@redhat.com> - 1.6f-30
 - resolves: #659646
   man man for Japanese manual page contains duplicated lines in PAGER explanation
