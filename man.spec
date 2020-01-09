@@ -4,7 +4,7 @@
 Summary: A set of documentation tools: man, apropos and whatis
 Name: man
 Version: 1.6f
-Release: 29%{?dist}
+Release: 30%{?dist}
 License: GPLv2
 Group: System Environment/Base
 URL: http://primates.ximian.com/~flucifredi/man/
@@ -48,6 +48,8 @@ Patch41: man-1.6f-override_dir.patch
 Patch42: man-1.6f-makewhatis_vari.patch
 # fix: 607540 - man-debuginfo incomplete
 Patch43: man-1.6f-debuginfo.patch
+Patch44: man-1.6f-jap.patch
+Patch45: man-1.6f-symlinks.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: coreutils
@@ -98,6 +100,8 @@ primary way to find documentation on a Linux system.
 %patch41 -p1 -b .overrides
 %patch42 -p1 -b .vari
 %patch43 -p1 -b .db
+%patch44 -p1 -b .jap
+%patch45 -p1 -b .symlinks
 
 cp -f %{SOURCE3} msgs   # replace bad ru trans
 cp -f %{SOURCE5} ./
@@ -282,6 +286,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jan 20 2012 Peter Schiffer <pschiffe@redhat.com> - 1.6f-30
+- resolves: #659646
+  man man for Japanese manual page contains duplicated lines in PAGER explanation
+- resolves: #749290
+  [RHEL6:REG] Missing Functionality : Improve makewhatis handling of symbolic links
+
 * Thu Jun 24 2010 Ivana Hutarova Varekova <varekova at redhat.com> - 1.6f-29
 - Resolves: #607540
   man-debuginfo incomplete
