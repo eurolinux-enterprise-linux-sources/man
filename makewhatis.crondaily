@@ -15,7 +15,7 @@ MDU=`sed -n -e 's/^[[:blank:]]*MAKEWHATISDBUPDATES[[:blank:]]*\(.\)[[:blank:]]*$
 ([ "$MDU" == "n" ] || [ "$MDU" == "N" ]) && exit 0
 
 trap "{ rm -f $LOCKFILE ; exit 255; }" EXIT
-touch $LOCKFILE
+touch $LOCKFILE; restorecon $LOCKFILE
 # Rebuild the database if makewhatis was since last full run,
 # otherwise just update with new pages
 if [ ! -f /var/cache/man/whatis ] ||

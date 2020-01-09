@@ -4,7 +4,7 @@
 Summary: A set of documentation tools: man, apropos and whatis
 Name: man
 Version: 1.6f
-Release: 32%{?dist}
+Release: 39%{?dist}
 License: GPLv2
 Group: System Environment/Base
 URL: http://primates.ximian.com/~flucifredi/man/
@@ -52,6 +52,10 @@ Patch44: man-1.6f-jap.patch
 Patch45: man-1.6f-symlinks.patch
 # resolves: #713088
 Patch46: man-1.6f-valgrind.patch
+Patch47: man-1.6f-add-missing-options-to-man-pages.patch
+Patch48: man-1.6f-fix-typo-in-man-page.patch
+Patch49: man-1.6f-add-missing-options-to-program-usage.patch
+Patch50: man-1.6f-update-cat-file-timestamps.patch
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: coreutils
@@ -105,6 +109,10 @@ primary way to find documentation on a Linux system.
 %patch44 -p1 -b .jap
 %patch45 -p1 -b .symlinks
 %patch46 -p1 -b .valgrind
+%patch47 -p1
+%patch48 -p1
+%patch49 -p1
+%patch50 -p1
 
 cp -f %{SOURCE3} msgs   # replace bad ru trans
 cp -f %{SOURCE5} ./
@@ -209,7 +217,7 @@ done
 
 install -m 644 src/man.conf $RPM_BUILD_ROOT/etc/man.config
 
-install -m755 %{SOURCE2} $RPM_BUILD_ROOT/etc/cron.daily/makewhatis.cron
+install -m700 %{SOURCE2} $RPM_BUILD_ROOT/etc/cron.daily/makewhatis.cron
 
 mkdir -p $RPM_BUILD_ROOT/%{_libexecdir}
 install -m755 %{SOURCE4} $RPM_BUILD_ROOT/%{_libexecdir}/man-cmp.sh
@@ -289,6 +297,34 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Nov 08 2016 Nikola Forró <nforro@redhat.com> - 1.6f-39
+- related: #1386250
+  add missing options also to synopsis of man.1 man page
+
+* Tue Nov 08 2016 Nikola Forró <nforro@redhat.com> - 1.6f-38
+- resolves: #1296427
+  update cat file timestamps to prevent using outdated version
+
+* Tue Nov 08 2016 Nikola Forró <nforro@redhat.com> - 1.6f-37
+- resolves: #1119595
+  add missing options to program usage and to man.1 man page
+
+* Thu Nov 03 2016 Nikola Forró <nforro@redhat.com> - 1.6f-36
+- resolves: #1386240
+  fix typo in man.1 man page
+
+* Thu Nov 03 2016 Nikola Forró <nforro@redhat.com> - 1.6f-35
+- resolves: #1386250
+  add missing options to man.1 and man2html.1 man pages
+
+* Thu Sep 29 2016 Nikola Forró <nforro@redhat.com> - 1.6f-34
+- resolves: #1145758
+  restore SELinux context after creating /var/lock/makewhatis.lock
+
+* Thu Sep 29 2016 Nikola Forró <nforro@redhat.com> - 1.6f-33
+- resolves: #1012499
+  change permissions of makewhatis.cron to match RH Security Guide
+
 * Fri Nov 16 2012 Peter Schiffer <pschiffe@redhat.com> - 1.6f-32
 - related: #713088
   fixed coverity findings
